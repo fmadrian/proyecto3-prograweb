@@ -1,15 +1,23 @@
 // src/main.js
+
+// Vue
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
-
+// Utils.
 import { APP_ROUTES } from './utils/AppRoutes';
-
+// Pinia
+import { createPinia } from 'pinia';
+// PrimeVue
+import PrimeVue from 'primevue/config';
+import 'primevue/resources/themes/aura-light-green/theme.css';
+// PrimeFlex
+import '/node_modules/primeflex/primeflex.css';
+// Componentes aplicación.
 import Home from './pages/Home.vue';
 import NotFound from './pages/NotFound.vue';
 import Login from './pages/Login.vue';
 import Registration from './pages/Registration.vue';
-import { createPinia } from 'pinia';
 import HotelsIndex from './pages/hotels/HotelsIndex.vue';
 import HotelsShow from './pages/hotels/HotelsShow.vue';
 import HotelsManage from './pages/hotels/HotelsManage.vue';
@@ -52,6 +60,9 @@ const router = createRouter({
 const app = createApp(App);
 
 app.use(router);
+// PrimeVue
+app.use(PrimeVue);
+// Pinia.
 app.use(createPinia());
 
 app.mount('#app');

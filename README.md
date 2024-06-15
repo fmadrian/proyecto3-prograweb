@@ -8,7 +8,7 @@ EIF507 - Programación web
 
 Adrián David Fallas Marín
 
-Carlos Daniel López Cheves
+Carlos Daniel López Chevez
 
 ## Sitio web
 
