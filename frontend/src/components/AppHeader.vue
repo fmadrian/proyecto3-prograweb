@@ -1,62 +1,34 @@
 <template>
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-secondary">
-            <div class="container-fluid">
-                <span class="navbar-brand"><router-link class="text-reset text-decoration-none"
-                        :to="APP_ROUTES.home">InnovaGestión</router-link></span>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar"
-                    aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbar">
-                    <ul class="navbar-nav flex-grow-1">
-                        <div class="d-flex justify-content-between flex-grow-1 ">
-                            <div class="d-flex justify-content-evenly">
-                                <li class="nav-item d-block">
-                                    <router-link class="nav-link text-reset text-decoration-none"
-                                        :to="APP_ROUTES.hotels.index">Hoteles</router-link>
-                                </li>
-                                <li class="nav-item d-block">
-                                    <router-link class="nav-link text-reset text-decoration-none"
-                                        :to="APP_ROUTES.rooms.index">Habitaciones</router-link>
-                                </li>
-                                <li v-if="isAdmin" class="nav-item d-block">
-                                    <a class="nav-link"><router-link class="text-reset text-decoration-none"
-                                            :to="APP_ROUTES.users.index">Usuarios</router-link></a>
-                                </li>
-                            </div>
-
-                            <div class="d-flex">
-                                <Searchbar />
-                            </div>
-                            <div class="d-flex justify-content-evenly">
-                                <li v-if="!isLoggedIn" class="nav-item d-block">
-                                    <a class="nav-link"><router-link class="text-reset text-decoration-none"
-                                            :to="APP_ROUTES.login">Login</router-link></a>
-                                </li>
-
-                                <li v-if="isLoggedIn" class="nav-item d-block">
-                                    <a class="nav-link"><router-link class="text-reset text-decoration-none"
-                                            :to="APP_ROUTES.users.view.link(user.id)">Mis reservaciones ({{ user.name
-                                            }})</router-link></a>
-                                </li>
-                                <li v-if="isLoggedIn" class="nav-item d-block">
-                                    <a class="nav-link"><router-link class="text-reset text-decoration-none"
-                                            :to="APP_ROUTES.users.edit.link(user.id)">Editar mi
-                                            informacion</router-link></a>
-                                </li>
-                                <li v-if="isLoggedIn" class="nav-item d-block">
-                                    <button class="nav-link text-danger" v-on:click="logout">Cerrar sesión</button>
-                                </li>
-                            </div>
-                        </div>
-                    </ul>
-                </div>
-            </div>
+        <nav>
+            <Menubar :model="items">
+                <template class="w-max" #item="{ item }">
+                    <span class="block" v-if="item.order === 0"><router-link :to="APP_ROUTES.home">{{ item.label
+                            }}</router-link></span>
+                    <router-link v-if="item.order === 1" class="block" :to="APP_ROUTES.hotels.index">{{
+                        item.label }}</router-link>
+                    <router-link v-if="item.order === 2" class="block" :to="APP_ROUTES.rooms.index">{{
+                        item.label }}</router-link>
+                    <router-link v-if="item.order === 3 && isAdmin" class="block" :to="APP_ROUTES.users.index">{{
+                        item.label }}</router-link>
+                    <div v-if="item.order === 4" class="flex">
+                        <Searchbar />
+                    </div>
+                    <router-link v-if="item.order === 5 && !isLoggedIn" class="block" :to="APP_ROUTES.login">{{
+                        item.label }}</router-link>
+                    <router-link v-if="item.order === 6 && isLoggedIn" class="block"
+                        :to="APP_ROUTES.users.view.link(user.id)">{{ item.label }} ({{
+                            user.name
+                        }})</router-link>
+                    <router-link v-if="item.order === 7 && isLoggedIn" class="block"
+                        :to="APP_ROUTES.users.edit.link(user.id)"></router-link>
+                    <button v-if="item.order === 8 && isLoggedIn" class="block text-danger"
+                        v-on:click="logout"></button>
+                </template>
+            </Menubar>
         </nav>
     </header>
 </template>
-
 <script setup>
 import { storeToRefs } from 'pinia';
 import { APP_ROUTES } from '../utils/AppRoutes';
@@ -65,6 +37,7 @@ import { useRouter } from 'vue-router';
 import { useGeneralStore } from '../stores/generalStore';
 import { fetchGet } from '../utils/Fetch';
 import Searchbar from './Searchbar.vue';
+import { ref } from 'vue';
 
 // Router (permite redirigir)
 const router = useRouter();
@@ -74,6 +47,18 @@ const store = useGeneralStore();
 
 // Obtiene objeto 'user' de estado y lo conecta a constante 'user'
 const { user, isLoggedIn, isAdmin } = storeToRefs(store);
+
+let items = ref([
+    { order: 0, label: 'InnovaGestión' },
+    { order: 1, label: 'Hoteles' },
+    { order: 2, label: 'Habitaciones' },
+    { order: 3, label: 'Usuarios' },
+    { order: 4, label: '' },
+    { order: 5, label: 'Login' },
+    { order: 6, label: 'Mis reservaciones' },
+    { order: 7, label: 'Editar mi informacion' },
+    { order: 8, label: 'Cerrar sesión' },
+])
 
 // Métodos
 let logout = function () {

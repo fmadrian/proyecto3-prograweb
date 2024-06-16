@@ -1,12 +1,12 @@
 <template>
-    <div class="container">
+    <div class="container px-5">
         <h1>Bienvenido a InnovaGestión</h1>
-        <div class="row">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex flex-column row-gap-3">
-                        <span class="d-block">Estoy buscando...</span>
-                        <Searchbar></Searchbar>
+        <div class="card">
+            <div class="card-body">
+                <div class="flex flex-column row-gap-3">
+                    <span class="block">Estoy buscando...</span>
+                    <div class="px-8">
+                        <Searchbar />
                     </div>
                 </div>
             </div>

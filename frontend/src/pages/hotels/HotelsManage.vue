@@ -1,48 +1,44 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3">Hotel </h5>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="name">Nombre</label>
-                                <input class="form-control" type="text" name="name" v-model="form.name" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="stars">Estrellas</label>
-                                <input class="form-control" type="number" name="stars" v-model="form.stars" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="description">Descripción</label>
-                                <input class="form-control" type="text" name="description" v-model="form.description"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="email">Ubicación</label>
-                                <input class="form-control" type="text" name="location" v-model="form.location"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="d-grid">
-                                <input v-if="isUpdate" class="btn btn-primary" type="submit" value="Modificar hotel"
-                                    v-on:click="submit">
-                                <input v-else class="btn btn-primary" type="submit" value="Crear hotel"
-                                    v-on:click="submit">
-                            </div>
-                        </div>
+    <div class="container grid">
+
+        <div class="grid col-12 md:col-6">
+            <Card class="col-12">
+                <template #header>
+                    <div>
+                        <h5 class="text-2xl">{{ isUpdate ? 'Modificar hotel' : 'Crear hotel' }}</h5>
+                        <span>Digite la información del formulario, por favor.</span>
                     </div>
-                </div>
-            </div>
+                </template>
+                <template #content>
+                    <Divider />
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="name">Nombre:</label>
+                        <InputText class="col-10" type="text" name="name" v-model="form.name" required />
+                    </div>
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="stars">Estrellas:</label>
+                        <InputNumber class="col-10" name="stars" v-model="form.stars" required :useGrouping="false"
+                            :min="0" :max="10" />
+                    </div>
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="location">Ubicación:</label>
+                        <InputText class="col-10" type="text" name="location" v-model="form.location" required />
+                    </div>
+                    <div class="flex mb-8 align-items-center gap-5">
+                        <label class="col-2" for="description">Descripción:</label>
+                        <Textarea class="col-10" rows="5" cols="30 " name="description" v-model="form.description"
+                            required />
+                    </div>
+                    <Divider />
+                    <div class="flex flex-column md:flex-row mb-3">
+                        <Button class="w-full" v-if="isUpdate" label="Modificar hotel" v-on:click="submit" />
+                        <Button class="w-full" v-else label="Crear hotel" v-on:click="submit" />
+                    </div>
+                </template>
+            </Card>
         </div>
+        <img class="hidden md:block md:col-6 p-8 h-max" src="/images/login.jpg" preview>
+
     </div>
 </template>
 

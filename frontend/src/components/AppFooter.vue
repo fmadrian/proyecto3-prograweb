@@ -1,6 +1,6 @@
 <template>
     <footer class="container-fluid text-center">
-        <hr>
+        <Divider />
         <span>Proyecto 2 - Tema 13</span>
     </footer>
 </template>

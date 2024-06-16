@@ -26,6 +26,23 @@ import RoomsManage from './pages/rooms/RoomsManage.vue';
 import RoomsShow from './pages/rooms/RoomsShow.vue';
 import UsersIndex from './pages/users/UsersIndex.vue';
 import UsersShow from './pages/users/UsersShow.vue';
+// PrimeVue componentes.
+import Button from "primevue/button";
+import Divider from "primevue/divider";
+import Menubar from 'primevue/menubar';
+import InputGroup from 'primevue/inputgroup';
+import InputGroupAddon from 'primevue/inputgroupaddon';
+import Dropdown from 'primevue/dropdown';
+import InputText from 'primevue/inputtext';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import ColumnGroup from 'primevue/columngroup';
+import Row from 'primevue/row';
+import Card from 'primevue/card';
+import InputNumber from 'primevue/inputnumber';
+import Textarea from 'primevue/textarea';
+
+
 const routes = [
 
     // Home
@@ -60,9 +77,25 @@ const router = createRouter({
 const app = createApp(App);
 
 app.use(router);
-// PrimeVue
-app.use(PrimeVue);
 // Pinia.
 app.use(createPinia());
+// PrimeVue
+app.use(PrimeVue);
+// PrimeVue componentes.
+app.component('Divider', Divider);
+app.component('Button', Button);
+app.component('Menubar', Menubar);
+app.component('InputGroup', InputGroup);
+app.component('InputGroupAddon', InputGroupAddon);
+app.component('Dropdown', Dropdown);
+app.component('InputText', InputText);
+
+app.component('DataTable', DataTable);
+app.component('Column', Column);
+app.component('Row', Row);
+app.component('ColumnGroup', ColumnGroup);
+app.component('Card', Card);
+app.component('InputNumber', InputNumber);
+app.component('Textarea', Textarea);
 
 app.mount('#app');

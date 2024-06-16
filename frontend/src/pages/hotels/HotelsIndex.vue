@@ -1,59 +1,49 @@
 <template>
     <div class="container">
-        <div class="row mb-3">
-            <div class="col-12 col-sm-8">
-                <h2>Hoteles</h2>
+        <div class="flex flex-column md:flex-row mb-3 align-items-center">
+            <div class="col-12 md:col-6">
+                <h2 class="text-5xl">Hoteles</h2>
             </div>
-
-            <div v-if="isAdmin" class="col-12 col-sm-4">
-                <router-link class="btn btn-outline-primary d-grid" :to="APP_ROUTES.hotels.create">Añadir</router-link>
+            <div class="col-12 md:col-6">
+                <router-link v-if="isAdmin" :to="APP_ROUTES.hotels.create"><Button class="w-full" label="Añadir"
+                        severity="info" /></router-link>
             </div>
-
         </div>
 
-        <div v-if="lastQuery.length === 0" class="row mb-3">
-            <h5>Todos los {{ hotels.length }} hoteles disponibles:</h5>
+        <div v-if="lastQuery.length === 0" class="mb-3">
+            <h5 class="text-xl">Todos los {{ hotels.length }} hoteles disponibles:</h5>
         </div>
 
-        <div v-else class="row mb-3">
+        <div v-else class="mb-3">
             <h5 class="mb-3">Resultados de búsqueda "{{ lastQuery }}"</h5>
             <span>Mostrando {{ hotels.length }} hoteles:</span>
         </div>
 
-        <div class="row">
+        <div class="col-12">
             <span class="text-center" v-if="hotels.length === 0">No hay...</span>
-            <table v-else class="table table-primary table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Estrellas</th>
-                        <th>Descripción</th>
-                        <th>Ubicación</th>
-                        <th></th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    <tr v-for="hotel in hotels">
-                        <td>{{ hotel.name }}</td>
-                        <td>{{ hotel.stars }}</td>
-                        <td>{{ hotel.description }}</td>
-                        <td>{{ hotel.location }}</td>
-
-                        <td>
-                            <router-link class="btn btn-success"
-                                :to="APP_ROUTES.hotels.view.link(hotel.id)">Ver</router-link>
-                            <router-link v-if="isAdmin" class="btn btn-primary"
-                                :to="APP_ROUTES.hotels.edit.link(hotel.id)">Modificar</router-link>
-                            <button v-if="isAdmin" type="button" class="btn btn-danger"
-                                v-on:click="deleteHotel(hotel.id)"><i class='bx bx-trash'></i>Eliminar</button>
-                        </td>
-
-
-                    </tr>
-
-                </tbody>
-            </table>
+            <DataTable v-else :value="hotels" selectionMode="single" scrollable scrollHeight="400px">
+                <Column sortable field="name" header="Nombre"></Column>
+                <Column sortable field="stars" header="Estrellas"></Column>
+                <Column sortable field="description" header="Descripción"></Column>
+                <Column sortable field="location" header="Ubicación"></Column>
+                <Column header="">
+                    <template #body="hotel">
+                        <div class="flex gap-1">
+                            <router-link :to="APP_ROUTES.hotels.view.link(hotel.data.id)">
+                                <Button label="Ver" severity="success" />
+                            </router-link>
+                            <router-link v-if="isAdmin" :to="APP_ROUTES.hotels.edit.link(hotel.data.id)">
+                                <Button label="Editar" severity="primary" />
+                            </router-link>
+                            <Button label="Eliminar" v-if="isAdmin" v-on:click="deleteHotel(hotel.data.id)"
+                                severity="danger" />
+                        </div>
+                    </template>
+                </Column>
+                <Column header="">
+                </Column>
+                <Column header=""></Column>
+            </DataTable>
         </div>
     </div>
 </template>
@@ -72,7 +62,9 @@ const router = useRouter();
 const route = useRoute();
 
 // Data.
-const hotels = ref([]);
+const hotels = ref([{
+
+}]);
 const lastQuery = ref("");
 // Estado.
 const store = useGeneralStore();

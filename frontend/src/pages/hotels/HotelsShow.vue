@@ -1,41 +1,76 @@
 <template>
     <div class="container">
-        <div class="row">
-            <h3>Información del hotel</h3>
+        <div class="grid">
+            <h3 class="col text-2xl">{{ hotel.name }}</h3>
         </div>
-        <div class="row">
-            <table class="table table-primary table-striped table-hover">
-                <tbody>
-
-                    <tr>
-                        <th>Nombre</th>
-                        <td>{{ hotel.name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Estrellas</th>
-                        <td>{{ hotel.stars }}</td>
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-        <div class="row">
-            <h3>Habitaciones del hotel</h3>
-            <span v-if="rooms.length === 0">No hay...</span>
-            <table v-else class="table table-primary table-striped table-hover">
-                <tbody>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                    </tr>
-                    <tr v-for="room in rooms">
-                        <td><router-link :to="APP_ROUTES.rooms.view.link(room.room_id)">
-                                {{ room.room_name
-                                }}</router-link></td>
-                        <td>{{ room.price }}</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="grid">
+            <div class="flex flex-column col-12 md:col-6">
+                <Card>
+                    <template #title>
+                        <h3>Información del hotel</h3>
+                    </template>
+                    <template #content>
+                        <div class="grid grid-column gap-1">
+                            <div
+                                class="col-12 grid border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
+                                <div class="col-2">
+                                    <span>Nombre:</span>
+                                </div>
+                                <div class="col-10">
+                                    <span> {{ hotel.name }}</span>
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 grid border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
+                                <div class="col-2">
+                                    <span>Estrellas:</span>
+                                </div>
+                                <div class="col-10">
+                                    <span> {{ hotel.stars }}</span>
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 grid border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
+                                <div class="col-2">
+                                    <span>Descripción:</span>
+                                </div>
+                                <div class="col-10">
+                                    <span>{{ hotel.description }}</span>
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 grid border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
+                                <div class="col-2">
+                                    Ubicación:
+                                </div>
+                                <div class="col-10">
+                                    {{ hotel.location }}
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </Card>
+            </div>
+            <div class="flex flex-column col-12 md:col-6">
+                <Card>
+                    <template #title>
+                        <h3>Habitaciones del hotel</h3>
+                    </template>
+                    <template #content>
+                        <span v-if="rooms.length === 0">No hay...</span>
+                        <DataTable v-else :value="rooms" selectionMode="single" scrollable scrollHeight="400px">
+                            <Column header="Nombre" sortable>
+                                <template #body="room">
+                                    <router-link :to="APP_ROUTES.rooms.view.link(room.data.room_id)">
+                                        {{ room.data.room_name }}
+                                    </router-link>
+                                </template>
+                            </Column>
+                            <Column field="price" header="Precio" sortable></Column>
+                        </DataTable>
+                    </template>
+                </Card>
+            </div>
         </div>
     </div>
 </template>
