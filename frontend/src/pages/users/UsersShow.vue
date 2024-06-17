@@ -1,63 +1,73 @@
 <template>
 
-    <div class="container">
-        <div class="row">
-            <h3>Información del usuario</h3>
+    <div class="container flex flex-row flex-wrap align-items-stretch">
+        <h2 class="col-12 text-2xl mb-3">{{ queried_user.name }}</h2>
+        <div class="mb-3 col-12 md:col-6">
+            <Card>
+                <template #title>
+                    <h3 class="mb-3">Información del usuario</h3>
+                </template>
+                <template #content>
+                    <div class="grid grid-column">
+                        <div
+                            class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200">
 
+                            <span class="block">Nombre:</span>
+
+
+                            <span class="block">{{ queried_user.name }}</span>
+
+                        </div>
+                        <div
+                            class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200">
+
+                            <span class="block">Correo electrónico:</span>
+
+
+                            <span class="block">{{ queried_user.email }}</span>
+
+                        </div>
+                        <div
+                            class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-20 ">
+
+                            <span class="block">¿Es administrador?</span>
+
+
+                            <span class="block"> {{ queried_user.is_admin ? "Si" : "No" }}</span>
+
+                        </div>
+                    </div>
+                </template>
+            </Card>
         </div>
-        <div class="row">
-            <table class="table table-primary table-striped table-hover">
-                <tbody>
-                    <tr>
-                        <th>Nombre</th>
-                        <td>{{ queried_user.name }}</td>
-                    </tr>
-                    <tr>
-                        <th>Email</th>
-                        <td>{{ queried_user.email }}</td>
-                    </tr>
-                    <tr v-if="isAdmin">
-                        <th>Es administrador</th>
-                        <td v-if="queried_user.is_admin">Sí</td>
-                        <td v-else>No</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="row">
-            <h3>Reservaciones</h3>
-            <span v-if="reservations.length == 0">No hay...</span>
-            <table v-else class="table table-primary table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Hotel</th>
-                        <th scope="col">Habitación</th>
-                        <th scope="col">Duración</th>
-                        <th scope="col">Total</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <tr v-for="reservation in reservations">
-                        <td>
-                            <router-link :to="APP_ROUTES.hotels.view.link(reservation.reservation_hotel_id)">{{
-                                reservation.reservation_hotel_name }}</router-link>
-                        </td>
-                        <td>
-                            <router-link :to="APP_ROUTES.rooms.view.link(reservation.reservation_room_id)">{{
-                                reservation.reservation_room_name }}</router-link>
-                        </td>
-                        <td>{{ reservation.duration }}</td>
-                        <td>{{ reservation.total_price }}</td>
-                        <td class="d-grid">
-                            <button type="button" v-on:click="deleteReservation(reservation.id)"
-                                class="btn btn-danger">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="mb-3 col-12 md:col-6">
+            <Card>
+                <template #title>
+                    <h3>Reservaciones</h3>
+                </template>
+                <template #content>
+                    <span class="block font-bold mb-5">{{ reservations.length > 0 ? `Mostrando ${reservations.length}
+                        reservaciones:` : `No
+                        hay reservaciones.`}}</span>
+                    <DataTable v-if="reservations.length > 0" :value="reservations" selectionMode="single" scrollable
+                        scrollHeight="300px">
+                        <Column sortable header="Hotel">
+                            <template #body="reservation">
+                                <router-link :to="APP_ROUTES.hotels.view.link(reservation.data.reservation_hotel_id)">{{
+                                    reservation.data.reservation_hotel_name }}</router-link>
+                            </template>
+                        </Column>
+                        <Column sortable field="duration" header="Duración"></Column>
+                        <Column sortable field="total_price" header="Total"></Column>
+                        <Column sortable header="">
+                            <template #body="reservation">
+                                <Button label="Eliminar" v-on:click="deleteReservation(reservation.data.id)"
+                                    severity="danger" />
+                            </template>
+                        </Column>
+                    </DataTable>
+                </template>
+            </Card>
         </div>
     </div>
 </template>

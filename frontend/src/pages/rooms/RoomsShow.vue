@@ -1,97 +1,114 @@
 <template>
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-12 col-sm-6">
-                <h3>Información de la habitación</h3>
-                <table class="table table-primary table-striped table-hover">
-                    <tbody>
-
-                        <tr>
-                            <th>Nombre</th>
-                            <td>{{ room.name }}</td>
-                        </tr>
-                        <tr>
-                            <th>Hotel</th>
-                            <td>
-                                <router-link :to="APP_ROUTES.rooms.view.link(room.hotel_id)">{{
-                                    room.hotel_name }}</router-link>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <th>Camas</th>
-                            <td>{{ room.beds }}</td>
-                        </tr>
-                        <tr>
-                            <th>Baños</th>
-                            <td>{{ room.bathrooms }}</td>
-                        </tr>
-                        <tr>
-                            <th>Extras</th>
-                            <td>{{ room.additional }}</td>
-                        </tr>
-                        <tr>
-                            <th>Precio</th>
-                            <td>{{ room.price }}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-            <div v-if="isLoggedIn" class="col-12 col-sm-6 my-0 my-sm-3">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-body">
-                            <h3 class="card-title">Reservar habitación</h3>
-                            <div class="row">
-                                <div>
-                                    <label class="form-label" for="duration">Duración</label>
-                                    <input class="form-control" type="number" name="duration" v-model="duration" min="1"
-                                        required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer">
-                            <div class="row d-grid">
-                                <button class="btn btn-primary" v-on:click="book">Reservar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="grid">
+            <h3 class="col text-2xl">{{ room.name }}</h3>
         </div>
 
+        <div class="grid">
+            <div class="flex flex-column col-12 md:col-6">
+                <Card>
+                    <template #title>
+                        <h3>Información de la habitación</h3>
+                    </template>
+                    <template #content>
+                        <div class="flex flex-column">
+                            <div
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200">
+                                <span class="block">Nombre:</span>
+                                <span class="block"> {{ room.name }}</span>
+                            </div>
+                            <div
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Hotel (nombre):</span>
 
 
-        <div v-if="isAdmin" class="row">
-            <h3>Reservaciones</h3>
-            <span v-if="reservations.length == 0">No hay...</span>
-            <table v-else class="table table-primary table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th scope="col">Usuario</th>
-                        <th scope="col">Duración</th>
-                        <th scope="col">Total</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="reservation in reservations">
-                        <td>
-                            <router-link :to="APP_ROUTES.users.view.link(reservation.reservation_user_id)">{{
-                                reservation.reservation_user_name }}</router-link>
-                        </td>
-                        <td>{{ reservation.duration }}</td>
-                        <td>{{ reservation.total_price }}</td>
+                                <router-link class="block" :to="APP_ROUTES.rooms.view.link(room.hotel_id)">{{
+                                    room.hotel_name }}</router-link>
 
-                        <td class="d-grid">
-                            <button type="button" v-on:click="deleteReservation(reservation.id)"
-                                class="btn btn-danger">Eliminar</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            </div>
+                            <div
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Camas:</span>
+
+
+                                <span class="block"> {{ room.beds }}</span>
+
+                            </div>
+                            <div
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Baños:</span>
+
+
+                                <span class="block"> {{ room.bathrooms }}</span>
+
+                            </div>
+                            <div
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Additional:</span>
+
+
+                                <span class="block"> {{ room.additional }}</span>
+
+                            </div>
+                            <div
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
+                                <span class="block">Precio:</span>
+                                <span class="block"> {{ room.price }}</span>
+                            </div>
+                        </div>
+                    </template>
+                </Card>
+            </div>
+            <div v-if="isLoggedIn" class="flex flex-column col-12 md:col-6">
+                <Card>
+                    <template #title>
+                        <h3>Reservar habitación</h3>
+                    </template>
+                    <template #content>
+                        <div class="flex mb-3 align-items-center gap-5 px-8">
+                            <label class="col-2 font-bold block mb-2" for="duration">Duración</label>
+                            <InputNumber class="col-10" v-model="duration" name="duration" suffix=" días" :min="1"
+                                showButtons required />
+                        </div>
+                        <div class="flex flex-column gap-1">
+                            <Divider />
+                            <Button severity="primary" v-on:click="book" label="Reservar" />
+                        </div>
+                    </template>
+                </Card>
+            </div>
+        </div>
+        <Divider />
+
+        <div v-if="isAdmin" class="flex flex-column">
+            <Card>
+                <template #header>
+                    <h3>Reservaciones</h3>
+                </template>
+                <template #content>
+                    <span v-if="reservations.length == 0">No hay...</span>
+                    <DataTable v-else :value="reservations" selectionMode="single" scrollable scrollHeight="300px">
+                        <Column sortable header="Usuario">
+                            <template #body="reservation">
+                                <router-link :to="APP_ROUTES.users.view.link(reservation.data.reservation_user_id)">{{
+                                    reservation.data.reservation_user_name }}</router-link>
+                            </template>
+                        </Column>
+                        <Column sortable field="duration" header="Duración"></Column>
+                        <Column sortable field="total_price" header="Total"></Column>
+                        <Column sortable header="">
+                            <template #body="reservation">
+                                <Button label="Eliminar" v-if="isAdmin"
+                                    v-on:click="deleteReservation(reservation.data.id)" severity="danger" />
+                            </template>
+                        </Column>
+                    </DataTable>
+                </template>
+            </Card>
         </div>
     </div>
 </template>

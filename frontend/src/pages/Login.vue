@@ -1,40 +1,37 @@
 <template>
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <form>
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title mb-3">Login</h5>
-                            <div class="row">
-                                <p v-if="error">Usuario o contraseña inválida intente de nuevo.</p>
+        <div class="flex flex-wrap align-items-center">
+            <div class="col-12 md:col-6">
+                <Card class="px-2">
+                    <template #header>
+                        <h5 class="text-3xl mb-3">Login</h5>
+                    </template>
+                    <template #content>
+                        <div class="flex mb-3 align-items-center gap-5">
+                            <p v-if="error">Usuario o contraseña inválida intente de nuevo.</p>
+                        </div>
+                        <div class="flex mb-3 align-items-center gap-5">
+                            <label class="col-2" for="email">Email</label>
+                            <InputText class="col-10" type="email" name="email" v-model="form.email" required />
+                        </div>
+                        <div class="flex mb-3 align-items-center gap-5">
+                            <label class="col-2" for="password">Contraseña</label>
+                            <InputText class="col-10" type="password" name="password" v-model="form.password"
+                                required />
+                        </div>
+                        <div class="flex flex-column gap-3 mb-3">
+                            <div class="flex md:flex-row mb-3">
+                                <Button class="w-full" label="Login" v-on:click="login" severity="primary" />
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <label class="form-label" for="email">Email</label>
-                                    <input v-model="form.email" class="form-control" type="email" name="email">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-12">
-                                    <label class="form-label" for="password">Contraseña</label>
-                                    <input v-model="form.password" class="form-control " type="password"
-                                        name="password">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="d-grid">
-                                    <input class="btn btn-primary" type="button" value="Login" v-on:click="login">
-                                </div>
-                                <div class="mt-3 text-center">
-                                    <router-link :to="APP_ROUTES.register">Crear usuario</router-link>
-                                </div>
+                            <div class="mt-3 text-center">
+                                <router-link :to="APP_ROUTES.register">Crear usuario</router-link>
                             </div>
                         </div>
-                    </div>
-                </form>
+
+                    </template>
+                </Card>
             </div>
-            <img class="d-none d-md-block col-md-6" src="/images/login.jpg">
+            <img class="hidden md:block md:col-6 p-8 h-max" src="/images/login.jpg">
         </div>
     </div>
 </template>
@@ -46,18 +43,17 @@ import { API_ROUTES } from '../utils/ApiRoutes';
 import { APP_ROUTES } from '../utils/AppRoutes';
 import { fetchGet, fetchPost } from '../utils/Fetch';
 import { storeToRefs } from 'pinia';
-import { onMounted, toRaw } from 'vue';
+import { onMounted, ref } from 'vue';
 // Router.
 const router = useRouter();
 
 // Data.
 
-let error = defineModel("error", { default: false })
-const form = defineModel("form", {
-    default: {
-        email: "", // Correo.
-        password: "" // Contraseña.
-    }
+let error = ref(false);
+const form = ref({
+    email: "", // Correo.
+    password: "" // Contraseña.
+
 })
 
 // Estado.

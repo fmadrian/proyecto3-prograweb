@@ -1,65 +1,49 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3">Room </h5>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="name">Nombre</label>
-                                <input class="form-control" type="text" name="name" v-model="form.name" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="hotel_id">Hotel </label>
-                                <select class="form-select" id="hotel_id" name="hotel_id" v-model="form.hotel_id">
-
-                                    <option v-for="hotel in hotels" :value="hotel.id">{{ hotel.name }}
-                                    </option>
-
-                                </select>
-
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="price">Precio</label>
-                                <input class="form-control" type="number" name="price" v-model="form.price" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="beds">Camas de la Habitación</label>
-                                <input class="form-control" type="number" name="beds" v-model="form.beds" required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="bathrooms">Baños</label>
-                                <input class="form-control" type="number" name="bathrooms" v-model="form.bathrooms"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div>
-                                <label class="form-label" for="extras">Extras</label>
-                                <input class="form-control" type="text" name="extras" v-model="form.additional"
-                                    required>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="d-grid">
-                                <input v-if="isUpdate" class="btn btn-primary" type="submit" value="Modificar hotel"
-                                    v-on:click="submit">
-                                <input v-else class="btn btn-primary" type="submit" value="Crear hotel"
-                                    v-on:click="submit">
-                            </div>
-                        </div>
+    <div class="container grid">
+        <div class="grid col-12 md:col-6">
+            <Card>
+                <template #header>
+                    <h5 class="text-2xl">{{ isUpdate ? 'Modificar habitación' : 'Crear habitación' }}</h5>
+                    <span>Digite la información del formulario, por favor.</span>
+                </template>
+                <template #content>
+                    {{ form }}
+                    <Divider />
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="name">Nombre:</label>
+                        <InputText class="col-10" name="name" v-model="form.name" required />
                     </div>
-                </div>
-            </div>
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="hotel_id">Hotel:</label>
+                        <Dropdown class="col-10" v-model="form.hotel_id" :options="hotels" optionLabel="name"
+                            optionValue="id" placeholder="Hotel" />
+                    </div>
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="price">Precio:</label>
+                        <InputNumber class="col-10" name="price" v-model="form.price" :min="0" showButtons required />
+                    </div>
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="beds">Camas:</label>
+                        <InputNumber class="col-10" name="beds" v-model="form.beds" :min="0" showButtons
+                            :useGrouping="false" required />
+                    </div>
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="bathrooms">Baños:</label>
+                        <InputNumber class="col-10" name="bathrooms" v-model="form.bathrooms" :min="0" showButtons
+                            :useGrouping="false" required />
+                    </div>
+                    <div class="flex mb-3 align-items-center gap-5">
+                        <label class="col-2" for="bathrooms">Extras:</label>
+                        <Textarea class="col-10" rows="5" cols="30 " name="additional" v-model="form.additional"
+                            required />
+                    </div>
+                    <Divider />
+                    <div class="flex flex-column md:flex-row mb-3">
+                        <Button class="w-full" v-if="isUpdate" label="Modificar habitación" v-on:click="submit" />
+                        <Button class="w-full" v-else label="Crear habitación" v-on:click="submit" />
+                    </div>
+                </template>
+            </Card>
         </div>
     </div>
 </template>
@@ -79,15 +63,15 @@ const router = useRouter();
 
 // Data.
 const isUpdate = ref(false);
-const form = defineModel("form", {
-    default: {
-        name: "",
-        hotel_id: "",
-        price: "",
-        beds: "",
-        bathrooms: "",
-        extras: ""
-    }
+const form = ref({
+
+    name: "",
+    hotel_id: "",
+    price: "",
+    beds: "",
+    bathrooms: "",
+    extras: ""
+
 })
 const hotels = ref([])
 

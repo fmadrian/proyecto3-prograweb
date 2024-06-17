@@ -1,39 +1,40 @@
 <template>
     <div class="container">
-        <div class="row">
-            <h1>Gestión de usuarios</h1>
-        </div>
-        <div class="row">
-            <div class="col">
-                <table class="table table-striped table-primary">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Es administrador</th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="user in users">
-                            <td>{{ user.name }}</td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.is_admin === "1" ? "Si" : "No" }}</td>
-                            <td>
-                                <router-link class="btn btn-success"
-                                    :to="APP_ROUTES.users.view.link(user.id)">Ver</router-link>
-                                <router-link v-if="isAdmin" class="btn btn-primary"
-                                    :to="APP_ROUTES.users.edit.link(user.id)">Modificar</router-link>
-                                <button v-if="isAdmin" type="button" class="btn btn-danger"
-                                    v-on:click="deleteUser(user.id)"><i class='bx bx-trash'></i>Eliminar</button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
+        <div class="flex flex-column md:flex-row align-items-center">
+            <div class="col-12 md:col-6">
+                <h2 class="text-5xl">Gestión de usuarios</h2>
             </div>
         </div>
+        <div class="col">
+            <h5 class="text-xl">Todos los {{ users.length }} usuarios:</h5>
+        </div>
+        <div class="col-12">
+            <span class="text-center" v-if="users.length === 0">No hay...</span>
+            <DataTable v-else :value="users" selectionMode="single" scrollable scrollHeight="300px">
+                <Column sortable field="name" header="Nombre"></Column>
+                <Column sortable field="email" header="Correo"></Column>
+                <Column sortable header="¿Es administrador?">
+                    <template #body="user">
+                        <span>{{ user.data.is_admin === "1" ? "Si" : "No" }}</span>
+                    </template>
+                </Column>
+                <Column header="">
+                    <template #body="user">
+                        <div class="flex gap-1">
+                            <router-link :to="APP_ROUTES.users.view.link(user.data.id)">
+                                <Button label="Ver" severity="success" />
+                            </router-link>
+                            <router-link v-if="isAdmin" :to="APP_ROUTES.users.edit.link(user.data.id)">
+                                <Button label="Editar" severity="primary" />
+                            </router-link>
+                            <Button label="Eliminar" v-if="isAdmin" v-on:click="deleteUser(user.data.id)"
+                                severity="danger" />
+                        </div>
+                    </template>
 
+                </Column>
+            </DataTable>
+        </div>
     </div>
 </template>
 

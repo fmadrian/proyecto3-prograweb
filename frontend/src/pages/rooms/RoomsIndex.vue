@@ -1,64 +1,57 @@
 <template>
     <div class="container">
-        <div class="row mb-3">
-            <div class="col-12 col-sm-8">
-                <h2>Gestión de habitaciones</h2>
+        <div class="flex flex-column md:flex-row align-items-center">
+            <div class="col-12 md:col-6">
+                <h2 class="text-5xl">Gestión de habitaciones</h2>
             </div>
-
-            <div v-if="isAdmin" class="col-12 col-sm-4">
-                <router-link class="btn btn-outline-primary" :to="APP_ROUTES.rooms.create">Añadir</router-link>
+            <div class="col-12 md:col-6">
+                <router-link v-if="isAdmin" :to="APP_ROUTES.rooms.create"><Button class="w-full" label="Añadir"
+                        severity="info" /></router-link>
             </div>
         </div>
-        <div v-if="lastQuery.length === 0" class="row mb-3">
-            <h5>Todas las {{ rooms.length }} habitaciones disponibles:</h5>
+
+
+        <div class="col" v-if="lastQuery.length === 0">
+            <h5 class="text-xl">Todas las {{ rooms.length }} habitaciones disponibles:</h5>
         </div>
 
-        <div v-else class="row mb-3">
-            <h5 class="mb-3">Resultados de búsqueda "{{ lastQuery }}"</h5>
+        <div class="col" v-else>
+            <h5>Resultados de búsqueda "{{ lastQuery }}"</h5>
             <span>Mostrando {{ rooms.length }} habitaciones:</span>
         </div>
 
-        <div class="row">
-            <span class="text-center" v-if="rooms.length === 0">No hay...</span>
-            <table v-else class="table table-primary table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Hotel (nombre)</th>
-                        <th>Cantidad de camas</th>
-                        <th>Baños</th>
-                        <th>Extras</th>
-                        <th>Precio (por día)</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="room in rooms">
-                        <td>{{ room.name }}</td>
-
-                        <td>
-                            <router-link :to="APP_ROUTES.rooms.view.link(room.hotel_id)">{{
-                                room.hotel_name }}</router-link>
-                        </td>
-
-                        <td>{{ room.beds }}</td>
-                        <td>{{ room.bathrooms }}</td>
-                        <td>{{ room.additional }}</td>
-                        <td>{{ room.price }}</td>
-                        <td> <router-link class="btn btn-success"
-                                :to="APP_ROUTES.rooms.view.link(room.id)">Ver</router-link>
-
-                            <router-link v-if="isAdmin" class="btn btn-primary"
-                                :to="APP_ROUTES.rooms.edit.link(room.id)">Modificar</router-link>
-                            <button v-if="isAdmin" type="button" class="btn btn-danger"
-                                v-on:click="deleteRoom(room.id)">
-                                Eliminar</button>
-                        </td>
-
-
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-12">
+            <span class="text-center" v-if="rooms.length === 0">No hay habitaciones disponibles...</span>
+            <DataTable v-else :value="rooms" selectionMode="single" scrollable scrollHeight="300px">
+                <Column sortable field="name" header="Nombre"></Column>
+                <Column sortable header="Hotel (nombre)">
+                    <template #body="room">
+                        <div class="flex gap-1">
+                            <router-link :to="APP_ROUTES.rooms.view.link(room.data.hotel_id)">
+                                {{ room.data.hotel_name }}
+                            </router-link>
+                        </div>
+                    </template>
+                </Column>
+                <Column sortable field="beds" header="Camas"></Column>
+                <Column sortable field="bathrooms" header="Habitaciones"></Column>
+                <Column sortable field="additional" header="Extras"></Column>
+                <Column sortable field="price" header="Precio"></Column>
+                <Column header="">
+                    <template #body="room">
+                        <div class="flex gap-1">
+                            <router-link :to="APP_ROUTES.rooms.view.link(room.data.id)">
+                                <Button label="Ver" severity="success" />
+                            </router-link>
+                            <router-link v-if="isAdmin" :to="APP_ROUTES.rooms.edit.link(room.data.id)">
+                                <Button label="Editar" severity="primary" />
+                            </router-link>
+                            <Button label="Eliminar" v-if="isAdmin" v-on:click="deleteRoom(room.data.id)"
+                                severity="danger" />
+                        </div>
+                    </template>
+                </Column>
+            </DataTable>
         </div>
     </div>
 </template>

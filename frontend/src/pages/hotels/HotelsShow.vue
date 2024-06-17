@@ -10,42 +10,42 @@
                         <h3>Información del hotel</h3>
                     </template>
                     <template #content>
-                        <div class="grid grid-column gap-1">
+                        <div class="grid grid-column">
                             <div
-                                class="col-12 grid border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
-                                <div class="col-2">
-                                    <span>Nombre:</span>
-                                </div>
-                                <div class="col-10">
-                                    <span> {{ hotel.name }}</span>
-                                </div>
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Nombre:</span>
+
+
+                                <span class="block"> {{ hotel.name }}</span>
+
                             </div>
                             <div
-                                class="col-12 grid border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
-                                <div class="col-2">
-                                    <span>Estrellas:</span>
-                                </div>
-                                <div class="col-10">
-                                    <span> {{ hotel.stars }}</span>
-                                </div>
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Estrellas:</span>
+
+
+                                <span class="block"> {{ hotel.stars }}</span>
+
                             </div>
                             <div
-                                class="col-12 grid border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
-                                <div class="col-2">
-                                    <span>Descripción:</span>
-                                </div>
-                                <div class="col-10">
-                                    <span>{{ hotel.description }}</span>
-                                </div>
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Descripción:</span>
+
+
+                                <span class="block">{{ hotel.description }}</span>
+
                             </div>
                             <div
-                                class="col-12 grid border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
-                                <div class="col-2">
-                                    Ubicación:
-                                </div>
-                                <div class="col-10">
-                                    {{ hotel.location }}
-                                </div>
+                                class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
+
+                                <span class="block">Ubicación:</span>
+
+
+                                <span class="block">{{ hotel.location }}</span>
+
                             </div>
                         </div>
                     </template>
@@ -58,7 +58,7 @@
                     </template>
                     <template #content>
                         <span v-if="rooms.length === 0">No hay...</span>
-                        <DataTable v-else :value="rooms" selectionMode="single" scrollable scrollHeight="400px">
+                        <DataTable v-else :value="rooms" selectionMode="single" scrollable scrollHeight="300px">
                             <Column header="Nombre" sortable>
                                 <template #body="room">
                                     <router-link :to="APP_ROUTES.rooms.view.link(room.data.room_id)">

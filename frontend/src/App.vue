@@ -1,7 +1,7 @@
 <!-- src/App.vue -->
 <template>
     <app-header></app-header>
-    <main class="container-fluid py-4">
+    <main class="container-fluid px-5 py-4">
         <router-view></router-view>
     </main>
     <app-footer></app-footer>

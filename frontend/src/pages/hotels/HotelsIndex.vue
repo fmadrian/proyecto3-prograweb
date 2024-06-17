@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="flex flex-column md:flex-row mb-3 align-items-center">
+        <div class="flex flex-column md:flex-row align-items-center">
             <div class="col-12 md:col-6">
                 <h2 class="text-5xl">Hoteles</h2>
             </div>
@@ -10,18 +10,18 @@
             </div>
         </div>
 
-        <div v-if="lastQuery.length === 0" class="mb-3">
+        <div v-if="lastQuery.length === 0" class="col">
             <h5 class="text-xl">Todos los {{ hotels.length }} hoteles disponibles:</h5>
         </div>
 
-        <div v-else class="mb-3">
-            <h5 class="mb-3">Resultados de búsqueda "{{ lastQuery }}"</h5>
+        <div v-else class="col">
+            <h5>Resultados de búsqueda "{{ lastQuery }}"</h5>
             <span>Mostrando {{ hotels.length }} hoteles:</span>
         </div>
 
         <div class="col-12">
-            <span class="text-center" v-if="hotels.length === 0">No hay...</span>
-            <DataTable v-else :value="hotels" selectionMode="single" scrollable scrollHeight="400px">
+            <span class="text-center" v-if="hotels.length === 0">No hay hoteles disponibles...</span>
+            <DataTable v-else :value="hotels" selectionMode="single" scrollable scrollHeight="300px">
                 <Column sortable field="name" header="Nombre"></Column>
                 <Column sortable field="stars" header="Estrellas"></Column>
                 <Column sortable field="description" header="Descripción"></Column>
@@ -62,9 +62,7 @@ const router = useRouter();
 const route = useRoute();
 
 // Data.
-const hotels = ref([{
-
-}]);
+const hotels = ref([]);
 const lastQuery = ref("");
 // Estado.
 const store = useGeneralStore();

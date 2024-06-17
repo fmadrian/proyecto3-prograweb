@@ -1,5 +1,5 @@
 <template>
-    <div class="container px-5">
+    <div class="container">
         <h1>Bienvenido a InnovaGestión</h1>
         <div class="card">
             <div class="card-body">

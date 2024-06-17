@@ -37,7 +37,7 @@
                 </template>
             </Card>
         </div>
-        <img class="hidden md:block md:col-6 p-8 h-max" src="/images/login.jpg" preview>
+        <img class="hidden md:block md:col-6 p-8 h-max" src="/images/login.jpg">
 
     </div>
 </template>
