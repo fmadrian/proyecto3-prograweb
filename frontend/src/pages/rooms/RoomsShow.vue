@@ -1,7 +1,13 @@
 <template>
     <div class="container">
-        <div class="grid">
-            <h3 class="col text-2xl">{{ room.name }}</h3>
+        <div class="flex flex-column md:flex-row align-items-center">
+            <div class="col-12 md:col-6">
+                <h3 class="col text-2xl">{{ room.name }}</h3>
+            </div>
+            <div class="col-12 md:col-6">
+                <router-link v-if="isAdmin" :to="APP_ROUTES.rooms.edit.link(room.id)"><Button class="w-full"
+                        label="Modificar habitación" severity="info" /></router-link>
+            </div>
         </div>
 
         <div class="grid">
@@ -14,23 +20,23 @@
                         <div class="flex flex-column">
                             <div
                                 class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200">
-                                <span class="block">Nombre:</span>
+                                <span class="block font-bold">Nombre:</span>
                                 <span class="block"> {{ room.name }}</span>
                             </div>
                             <div
                                 class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
 
-                                <span class="block">Hotel (nombre):</span>
+                                <span class="block font-bold">Hotel (nombre):</span>
 
 
-                                <router-link class="block" :to="APP_ROUTES.rooms.view.link(room.hotel_id)">{{
+                                <router-link class="block" :to="APP_ROUTES.hotels.view.link(room.hotel_id)">{{
                                     room.hotel_name }}</router-link>
 
                             </div>
                             <div
                                 class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
 
-                                <span class="block">Camas:</span>
+                                <span class="block font-bold">Camas:</span>
 
 
                                 <span class="block"> {{ room.beds }}</span>
@@ -39,7 +45,7 @@
                             <div
                                 class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
 
-                                <span class="block">Baños:</span>
+                                <span class="block font-bold">Baños:</span>
 
 
                                 <span class="block"> {{ room.bathrooms }}</span>
@@ -48,7 +54,7 @@
                             <div
                                 class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-100 hover:bg-gray-200 hover:border-gray-200 ">
 
-                                <span class="block">Additional:</span>
+                                <span class="block font-bold">Adicional:</span>
 
 
                                 <span class="block"> {{ room.additional }}</span>
@@ -56,7 +62,7 @@
                             </div>
                             <div
                                 class="col-12 flex gap-2 border-1 border-cyan-200 bg-cyan-200 hover:bg-gray-200 hover:border-gray-200 ">
-                                <span class="block">Precio:</span>
+                                <span class="block font-bold">Precio:</span>
                                 <span class="block"> {{ room.price }}</span>
                             </div>
                         </div>
@@ -119,11 +125,10 @@ import { API_ROUTES } from '../../utils/ApiRoutes';
 import { APP_ROUTES } from '../../utils/AppRoutes';
 import { fetchGet, fetchPost, fetchDelete } from '../../utils/Fetch';
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
-
+import { useRoute, useRouter } from 'vue-router';
 // Router.
 const route = useRoute();
-
+const router = useRouter();
 // Data.
 const room = ref({});
 const reservations = ref([]);
@@ -132,7 +137,7 @@ const room_id = ref("");
 
 // Estado.
 const store = useGeneralStore();
-const { isAdmin, isLoggedIn } = storeToRefs(store);
+const { user, isAdmin, isLoggedIn } = storeToRefs(store);
 
 // Métodos 
 function getRoom(id) {
@@ -148,8 +153,10 @@ function getRoom(id) {
 function book() {
     fetchPost(API_ROUTES.reservations.create, { duration: duration.value, room_id: room_id.value })
         .then(json => {
-            if (json.status === 200)
+            if (json && json.status === 200) {
                 getRoom(room_id.value);
+                router.push(APP_ROUTES.users.view.link(user.value.id));
+            }
         });
 }
 function deleteReservation(id) {

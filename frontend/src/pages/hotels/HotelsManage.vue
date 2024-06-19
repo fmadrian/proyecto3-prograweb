@@ -5,28 +5,28 @@
             <Card class="col-12">
                 <template #header>
                     <div>
-                        <h5 class="text-2xl">{{ isUpdate ? 'Modificar hotel' : 'Crear hotel' }}</h5>
+                        <h5 class="text-2xl px-5">{{ isUpdate ? 'Modificar hotel' : 'Crear hotel' }}</h5>
                         <span>Digite la información del formulario, por favor.</span>
                     </div>
                 </template>
                 <template #content>
                     <Divider />
-                    <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="name">Nombre:</label>
-                        <InputText class="col-10" type="text" name="name" v-model="form.name" required />
+                    <div class="flex mb-3 align-items-center gap-5 pr-8">
+                        <label class="col-3" for="name">Nombre:</label>
+                        <InputText class="col-9" type="text" name="name" v-model="form.name" required />
                     </div>
-                    <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="stars">Estrellas:</label>
-                        <InputNumber class="col-10" name="stars" v-model="form.stars" required :useGrouping="false"
+                    <div class="flex mb-3 align-items-center gap-5 pr-8">
+                        <label class="col-3" for="stars">Estrellas:</label>
+                        <InputNumber class="col-9" name="stars" v-model="form.stars" required :useGrouping="false"
                             :min="0" :max="10" />
                     </div>
-                    <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="location">Ubicación:</label>
-                        <InputText class="col-10" type="text" name="location" v-model="form.location" required />
+                    <div class="flex mb-3 align-items-center gap-5 pr-8">
+                        <label class="col-3" for="location">Ubicación:</label>
+                        <InputText class="col-9" type="text" name="location" v-model="form.location" required />
                     </div>
-                    <div class="flex mb-8 align-items-center gap-5">
-                        <label class="col-2" for="description">Descripción:</label>
-                        <Textarea class="col-10" rows="5" cols="30 " name="description" v-model="form.description"
+                    <div class="flex mb-8 align-items-center gap-5 pr-8">
+                        <label class="col-3" for="description">Descripción:</label>
+                        <Textarea class="col-9" rows="5" cols="30 " name="description" v-model="form.description"
                             required />
                     </div>
                     <Divider />
@@ -68,7 +68,7 @@ const form = defineModel("form", {
 
 // Estado.
 const store = useGeneralStore();
-const { isAdmin, isLoggedIn } = storeToRefs(store);
+const { isAdmin } = storeToRefs(store);
 
 // Métodos 
 function getHotel(id) {

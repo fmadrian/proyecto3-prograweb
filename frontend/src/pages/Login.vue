@@ -4,26 +4,26 @@
             <div class="col-12 md:col-6">
                 <Card class="px-2">
                     <template #header>
-                        <h5 class="text-3xl mb-3">Login</h5>
+                        <h5 class="text-3xl px-5">Login</h5>
                     </template>
                     <template #content>
-                        <div class="flex mb-3 align-items-center gap-5">
-                            <p v-if="error">Usuario o contraseña inválida intente de nuevo.</p>
+                        <div class="flex mb-3 align-items-center gap-5 pr-8 bg-red-100 px-3">
+                            <p class="font-semibold" v-if="error">Usuario o contraseña inválida intente de nuevo.</p>
                         </div>
-                        <div class="flex mb-3 align-items-center gap-5">
-                            <label class="col-2" for="email">Email</label>
-                            <InputText class="col-10" type="email" name="email" v-model="form.email" required />
+                        <div class="flex mb-3 align-items-center gap-5 pr-8">
+                            <label class="col-3" for="email">Email</label>
+                            <InputText class="col-9" type="email" name="email" v-model="form.email" required />
                         </div>
-                        <div class="flex mb-3 align-items-center gap-5">
-                            <label class="col-2" for="password">Contraseña</label>
-                            <InputText class="col-10" type="password" name="password" v-model="form.password"
-                                required />
+                        <div class="flex mb-3 align-items-center gap-5 pr-8">
+                            <label class="col-3" for="password">Contraseña</label>
+                            <InputText class="col-9" type="password" name="password" v-model="form.password" required />
                         </div>
-                        <div class="flex flex-column gap-3 mb-3">
-                            <div class="flex md:flex-row mb-3">
+                        <Divider />
+                        <div class="flex flex-column gap-3 mt-5 mb-3">
+                            <div class="flex md:flex-row mb-1">
                                 <Button class="w-full" label="Login" v-on:click="login" severity="primary" />
                             </div>
-                            <div class="mt-3 text-center">
+                            <div class="text-center">
                                 <router-link :to="APP_ROUTES.register">Crear usuario</router-link>
                             </div>
                         </div>
@@ -53,24 +53,31 @@ let error = ref(false);
 const form = ref({
     email: "", // Correo.
     password: "" // Contraseña.
-
 })
 
 // Estado.
 const store = useGeneralStore();
-const { user, isLoggedIn, isAdmin } = storeToRefs(store);
+const { isLoggedIn } = storeToRefs(store);
 // Métodos
 let login = function () {
+    error.value = false;
     // Almacenar usuario en estado y volver a inicio.
     // Hace request a /info para obtener información de usuario.
     fetchPost(API_ROUTES.auth.login, { ...form.value })
         .then(json => {
-            if (json !== null)
+            if (json !== null && json.status == 200) {
                 return fetchGet(API_ROUTES.auth.info)
+            }
+            else {
+                error.value = true;
+            }
         }).then((json) => {
             if (json && json.status == 200) {
                 store.setUser({ ...json.body });
                 router.push(APP_ROUTES.home);
+            }
+            else {
+                error.value = true;
             }
         });
 }

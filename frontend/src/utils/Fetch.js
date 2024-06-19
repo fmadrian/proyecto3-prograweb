@@ -57,6 +57,5 @@ export async function fetchPut(url, body) {
         }, body: JSON.stringify(body)
     }).then(res => {
         return res.ok ? res.json() : null
-    })
-        .catch(error => console.error(error));
+    }).catch(error => console.error(error));
 }
