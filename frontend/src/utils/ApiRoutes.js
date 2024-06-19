@@ -1,4 +1,4 @@
-const url = "http://127.0.0.1:8000";
+const url = "https://eif507-una-proyecto3-tema13.000webhostapp.com/api";
 export const API_ROUTES = {
     "auth": {
         "login": `${url}/login`,

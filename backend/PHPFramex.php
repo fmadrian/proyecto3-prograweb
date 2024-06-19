@@ -1,33 +1,10 @@
 <?php
 
-cors();
 overwritePOST();
 
 function overwritePOST(){
-  // Use 'X-HTTP-Method-Override' header to overwrite the POST request with another method.
   if($_SERVER['REQUEST_METHOD'] == "POST"  && isset($_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'])){
     $_SERVER['REQUEST_METHOD'] = $_SERVER['HTTP_X_HTTP_METHOD_OVERRIDE'];
-  }
-}
-
-function cors() {
-    
-  // An origin has to be defined in order to be able to use it with Allow-Credentials.
-  header("Access-Control-Allow-Origin: http://localhost:5173");
-  // Allow-Credentials to allow client to pass back the session received.
-  header('Access-Control-Allow-Credentials: true');
-  // Allow clients to use the header returned in 'Set-Cookie'.
-  header('Access-Control-Expose-Headers: Set-Cookie');
-  // Verbs allowed.
-  header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
-  
-  // Access-Control headers are received during OPTIONS requests
-  if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        
-      if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-          header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-  
-      exit(0);
   }
 }
 
@@ -784,7 +761,7 @@ class DB {
     $values = array_values($item);
     // $values = array_merge($values,[$params['where'][0][3]]); // Directly retrieves the ID from 'where'.
     
-    // Retrieve the ID and merge it with the values array.
+    // Retrieve the ID and merge with the values array.
     $where_values = [];
     if (array_key_exists('where',$params)) {
       $where_values = array_map(

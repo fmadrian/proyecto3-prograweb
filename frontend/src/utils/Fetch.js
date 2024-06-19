@@ -42,20 +42,6 @@ export async function fetchDelete(url) {
         return res.ok ? res.json() : null
     })
         .catch(error => console.error(error));
-
-    /*
-        // Sin suplantación
-        return fetch(url, {
-            method: "DELETE",
-            credentials: 'include', // Incluir para retener credenciales enviadas por backend en 'Set-Cookie'.
-            headers:
-            {
-                'Accept': 'application/json',  // Petición devuelve un JSON.
-            }
-        }).then(res => {
-            return res.ok ? res.json() : null
-        })
-        */
 }
 
 export async function fetchPut(url, body) {
@@ -67,23 +53,10 @@ export async function fetchPut(url, body) {
         {
             'X-HTTP-Method-Override': 'PUT', // Sobreescribe el POST.
             'Accept': 'application/json',  // Petición devuelve un JSON.
-            'Content-Type': 'application/json'// Solo en POST. Estamos enviando un JSON. 
+            'Content-Type': 'application/json' // Solo en POST. Estamos enviando un JSON. 
         }, body: JSON.stringify(body)
     }).then(res => {
         return res.ok ? res.json() : null
-    }).catch(error => console.error(error));
-
-    /*
-        return fetch(url, {
-            method: "PUT",
-            credentials: 'include', // Incluir para retener credenciales enviadas por backend en 'Set-Cookie'.
-            headers:
-            {
-                'Accept': 'application/json',  // Petición devuelve un JSON.
-                'Content-Type': 'application/json',// Solo en POST. Estamos enviando un JSON. 
-            }, body: JSON.stringify(body)
-        }).then(res => (res.ok ? res.json() : null))
-            .catch(error => console.error(error));
-            */
-
+    })
+        .catch(error => console.error(error));
 }
