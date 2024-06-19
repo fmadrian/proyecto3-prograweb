@@ -41,6 +41,7 @@ import Row from 'primevue/row';
 import Card from 'primevue/card';
 import InputNumber from 'primevue/inputnumber';
 import Textarea from 'primevue/textarea';
+import Menu from 'primevue/menu';
 
 
 const routes = [
@@ -97,5 +98,6 @@ app.component('ColumnGroup', ColumnGroup);
 app.component('Card', Card);
 app.component('InputNumber', InputNumber);
 app.component('Textarea', Textarea);
+app.component('Menu', Menu);
 
 app.mount('#app');
