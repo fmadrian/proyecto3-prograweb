@@ -1,46 +1,45 @@
 <template>
-    <div class="container grid">
-        <div class="grid col-12 md:col-6">
-            <Card>
+    <div class="container">
+        <div class="flex col-12 md:col-6">
+            <Card class="col-12">
                 <template #header>
-                    <h5 class="text-2xl">{{ isUpdate ? 'Modificar habitación' : 'Crear habitación' }}</h5>
-                    <span>Digite la información del formulario, por favor.</span>
+                    <h5 class="text-2xl px-2">{{ isUpdate ? 'Modificar habitación' : 'Crear habitación' }}</h5>
+                    <span class="px-2">Digite la información del formulario, por favor.</span>
                 </template>
                 <template #content>
-                    {{ form }}
                     <Divider />
                     <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="name">Nombre:</label>
-                        <InputText class="col-10" name="name" v-model="form.name" required />
+                        <label class="col-3" for="name">Nombre:</label>
+                        <InputText class="col-9" name="name" v-model="form.name" required />
                     </div>
                     <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="hotel_id">Hotel:</label>
-                        <Dropdown class="col-10" v-model="form.hotel_id" :options="hotels" optionLabel="name"
+                        <label class="col-3" for="hotel_id">Hotel:</label>
+                        <Dropdown class="col-9" v-model="form.hotel_id" :options="hotels" optionLabel="name"
                             optionValue="id" placeholder="Hotel" />
                     </div>
                     <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="price">Precio:</label>
-                        <InputNumber class="col-10" name="price" v-model="form.price" :min="0" showButtons required />
+                        <label class="col-3" for="price">Precio:</label>
+                        <InputNumber class="col-9" name="price" v-model="form.price" :min="0" showButtons required />
                     </div>
                     <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="beds">Camas:</label>
-                        <InputNumber class="col-10" name="beds" v-model="form.beds" :min="0" showButtons
+                        <label class="col-3" for="beds">Camas:</label>
+                        <InputNumber class="col-9" name="beds" v-model="form.beds" :min="0" showButtons
                             :useGrouping="false" required />
                     </div>
                     <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="bathrooms">Baños:</label>
-                        <InputNumber class="col-10" name="bathrooms" v-model="form.bathrooms" :min="0" showButtons
+                        <label class="col-3" for="bathrooms">Baños:</label>
+                        <InputNumber class="col-9" name="bathrooms" v-model="form.bathrooms" :min="0" showButtons
                             :useGrouping="false" required />
                     </div>
                     <div class="flex mb-3 align-items-center gap-5">
-                        <label class="col-2" for="bathrooms">Extras:</label>
-                        <Textarea class="col-10" rows="5" cols="30 " name="additional" v-model="form.additional"
+                        <label class="col-3" for="bathrooms">Extras:</label>
+                        <Textarea class="col-9" rows="5" cols="30 " name="additional" v-model="form.additional"
                             required />
                     </div>
                     <Divider />
-                    <div class="flex flex-column md:flex-row mb-3">
-                        <Button class="w-full" v-if="isUpdate" label="Modificar habitación" v-on:click="submit" />
-                        <Button class="w-full" v-else label="Crear habitación" v-on:click="submit" />
+                    <div class="flex flex-column md:flex-row">
+                        <Button class="col-12" v-if="isUpdate" label="Modificar habitación" v-on:click="submit" />
+                        <Button class="col-12" v-else label="Crear habitación" v-on:click="submit" />
                     </div>
                 </template>
             </Card>
@@ -67,9 +66,9 @@ const form = ref({
 
     name: "",
     hotel_id: "",
-    price: "",
-    beds: "",
-    bathrooms: "",
+    price: 0,
+    beds: 0,
+    bathrooms: 0,
     extras: ""
 
 })

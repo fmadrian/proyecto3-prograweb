@@ -18,8 +18,8 @@
                             <Searchbar />
                         </div>
                         <Button v-if="isLoggedIn" type="button" @click="toggle" aria-haspopup="true"
-                            aria-controls="overlay_menu" severity="info" outlined>{{ user.name }}</Button>
-                        <router-link v-else class="block" :to="APP_ROUTES.login"><Button severity="primary" outlined
+                            aria-controls="overlay_menu" severity="info" rounded>{{ user.name }}</Button>
+                        <router-link v-else class="block" :to="APP_ROUTES.login"><Button severity="contrast" rounded
                                 label="Login" /></router-link>
                         <Menu ref="menu" id="overlay_menu" :model="userMenu" :popup="true">
                             <template #item="{ item, props }">

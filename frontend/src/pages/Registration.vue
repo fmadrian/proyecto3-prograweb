@@ -7,22 +7,21 @@
                         <h5 class="text-3xl mb-3">{{ isUpdate ? "Modificar usuario" : "Crear usuario" }}</h5>
                     </template>
                     <template #content>
-                        <div class="flex mb-3 align-items-center gap-5">
-                            <label class="col-2" for="name">Nombre</label>
-                            <InputText class="col-10" type="text" name="name" v-model="form.name" required />
+                        <div class="flex mb-3 align-items-center gap-5 pr-8">
+                            <label class="col-3" for="name">Nombre</label>
+                            <InputText class="col-9" type="text" name="name" v-model="form.name" required />
                         </div>
-                        <div class="flex mb-3 align-items-center gap-5">
-                            <label class="col-2" for="email">Email</label>
-                            <InputText class="col-10" type="email" name="email" v-model="form.email" required />
+                        <div class="flex mb-3 align-items-center gap-5 pr-8">
+                            <label class="col-3" for="email">Email</label>
+                            <InputText class="col-9" type="email" name="email" v-model="form.email" required />
                         </div>
-                        <div class="flex mb-3 align-items-center gap-5">
-                            <label class="col-2" for="password">Contraseña</label>
-                            <InputText class="col-10" type="password" name="password" v-model="form.password"
-                                required />
+                        <div class="flex mb-3 align-items-center gap-5 pr-8">
+                            <label class="col-3" for="password">Contraseña</label>
+                            <InputText class="col-9" type="password" name="password" v-model="form.password" required />
                         </div>
-                        <div v-if="isAdmin" class="flex mb-3 align-items-center gap-5">
-                            <label class="col-2" for="is_admin">¿Es administrador?</label>
-                            <Dropdown class="col-10" id="is_admin" name="is_admin" v-model="form.is_admin"
+                        <div v-if="isAdmin" class="flex mb-3 align-items-center gap-5 pr-8">
+                            <label class="col-3" for="is_admin">¿Es administrador?</label>
+                            <Dropdown class="col-9" id="is_admin" name="is_admin" v-model="form.is_admin"
                                 :options="selectOptions" optionLabel="label" optionValue="id"
                                 placeholder="Es administrador" />
                         </div>
@@ -49,7 +48,7 @@ import { storeToRefs } from 'pinia';
 import { useGeneralStore } from '../stores/generalStore';
 import { API_ROUTES } from '../utils/ApiRoutes';
 import { APP_ROUTES } from '../utils/AppRoutes';
-import { fetchGet, fetchPost, fetchPut } from '../utils/Fetch';
+import { fetchGet, fetchPost } from '../utils/Fetch';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 // Data
@@ -57,12 +56,12 @@ const form = ref({
     name: "", // Nombre.
     email: "", // Correo.
     password: "", // Contraseña.
-    is_admin: "0"
+    is_admin: 0
 }
 );
 const selectOptions = ref([
-    { label: 'Si', value: 1 },
-    { label: 'No', value: 0 }]
+    { label: 'Si', id: 1 },
+    { label: 'No', id: 0 }]
 );
 const user_id = ref(1);
 const isUpdate = ref(false);

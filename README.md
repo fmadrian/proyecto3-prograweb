@@ -1,4 +1,4 @@
-# proyecto2-prograweb
+# proyecto3-prograweb
  
 Proyecto 3
 
@@ -37,3 +37,7 @@ La cuenta de administrador tiene acceso a:
 Correo: juan@mail.com
 Contraseña: 123
 ```
+
+# Captura de pantalla
+
+![captura](frontend/public/images/screenshot.png)

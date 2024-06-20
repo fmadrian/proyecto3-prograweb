@@ -1,7 +1,7 @@
 <template>
     <footer class="container-fluid text-center">
         <Divider />
-        <span>Proyecto 2 - Tema 13</span>
+        <span>Proyecto 3 - Tema 13</span>
     </footer>
 </template>
 

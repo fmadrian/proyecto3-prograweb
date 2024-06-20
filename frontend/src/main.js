@@ -42,6 +42,7 @@ import Card from 'primevue/card';
 import InputNumber from 'primevue/inputnumber';
 import Textarea from 'primevue/textarea';
 import Menu from 'primevue/menu';
+import Panel from 'primevue/panel';
 
 
 const routes = [
@@ -99,5 +100,6 @@ app.component('Card', Card);
 app.component('InputNumber', InputNumber);
 app.component('Textarea', Textarea);
 app.component('Menu', Menu);
+app.component('Panel', Panel);
 
 app.mount('#app');
